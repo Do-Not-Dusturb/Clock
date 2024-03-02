@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f1f1f1;
+    }
+    .stopwatch {
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+    }
+</style>
+</head>
+<body>
+<div class="stopwatch">
+    <span id="display">00:00:00</span>
+    <button id="startStop">Start</button>
+    <button id="reset">Reset</button>
+</div>
+<script>
+    let timer;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    function displayTime() {
+        document.getElementById('display').textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startStopwatch() {
+        timer = setInterval(() => {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            displayTime();
+        }, 1000);
+        document.getElementById('startStop').textContent = 'Stop';
+    }
+
+    function stopStopwatch() {
+        clearInterval(timer);
+        document.getElementById('startStop').textContent = 'Start';
+    }
+
+    function resetStopwatch() {
+        clearInterval(timer);
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+        displayTime();
+        document.getElementById('startStop').textContent = 'Start';
+    }
+
+    document.getElementById('startStop').addEventListener('click', () => {
+        if (timer) {
+            stopStopwatch();
+        } else {
+            startStopwatch();
+        }
+    });
+
+    document.getElementById('reset').addEventListener('click', resetStopwatch);
+</script>
+</body>
+</html>
